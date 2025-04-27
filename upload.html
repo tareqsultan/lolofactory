@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>رفع قطعة إلى Google Drive وGoogle Sheets</title>
+</head>
+<body>
+
+<h2>إضافة قطعة جديدة</h2>
+
+<form id="uploadForm">
+  <input type="file" id="imageInput" accept="image/*" required><br><br>
+  <input type="text" id="itemName" placeholder="اسم القطعة" required><br><br>
+  <textarea id="itemDesc" placeholder="وصف القطعة" required></textarea><br><br>
+  <button type="submit">رفع البيانات</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz1H3Q1XkWp9e-a4Md_zKSKI7zYuyn_Wns_vuya8MdewrQCF_6QPwsu9ZxCQ8EDZH_4/exec';
+
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const imageFile = document.getElementById('imageInput').files[0];
+  const itemName = document.getElementById('itemName').value;
+  const itemDesc = document.getElementById('itemDesc').value;
+
+  if (!imageFile) {
+    alert('رجاءً اختر صورة.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async function(event) {
+    const base64 = event.target.result.split(',')[1];
+    const imageType = imageFile.type;
+
+    const data = {
+      imageBase64: base64,
+      imageType: imageType,
+      imageName: imageFile.name,
+      itemName: itemName,
+      itemDesc: itemDesc
+    };
+
+    const response = await fetch(WEB_APP_URL, {
+      method: 'POST',
+      headers: {
+  "Content-Type": "application/json"
+},
+
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    if (result.status === 'success') {
+      document.getElementById('result').innerHTML = '✅ تم رفع الصورة بنجاح! <br> <a href="' + result.imageUrl + '" target="_blank">عرض الصورة</a>';
+    } else {
+      document.getElementById('result').textContent = '❌ حدث خطأ: ' + result.message;
+    }
+  };
+  
+  reader.readAsDataURL(imageFile);
+});
+</script>
+
+</body>
+</html>
