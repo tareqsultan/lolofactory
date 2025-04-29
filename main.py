@@ -38,4 +38,3 @@ def get_image_description_from_vertex(image_base64):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
