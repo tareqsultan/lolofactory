@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تحليل صورة</title>
+</head>
+<body>
+  <h2>تحميل صورة لتحليلها</h2>
+  <form method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <button type="submit">حلل</button>
+  </form>
+  {% if uploaded_image_url %}
+    <h3>الصورة المرفوعة:</h3>
+    <img src="{{ uploaded_image_url }}" width="300"><br>
+    <h4>الوصف:</h4>
+    <p>{{ description }}</p>
+  {% endif %}
+</body>
+</html>
