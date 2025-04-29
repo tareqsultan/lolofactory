@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>image recognition</title>
+    <meta charset="UTF-8">
+    <title>Upload an Image</title>
 </head>
 <body>
-  <h2>upLoud</h2>
-  <form method="post" enctype="multipart/form-data">
-    <input type="file" name="file">
-    <button type="submit">Analize</button>
-  </form>
-  {% if uploaded_image_url %}
-    <h3>image uplouded:</h3>
-    <img src="{{ uploaded_image_url }}" width="300"><br>
-    <h4>الوصف:</h4>
+    <h1>Upload an Image 📷</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if uploaded_image_url %}
+    <h2>Uploaded Image:</h2>
+    <img src="{{ uploaded_image_url }}" alt="Uploaded Image" width="300">
+
+    <h2>Description:</h2>
     <p>{{ description }}</p>
-  {% endif %}
+    {% endif %}
 </body>
 </html>
